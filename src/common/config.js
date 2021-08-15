@@ -7,6 +7,7 @@ export const entryColor = "blue";
 export const exitColor = "green";
 export const searchColor = "lightgrey";
 export const pathColor = "yellow";
+export const currentColor = "grey";
 
 // Maximum Dimensions
 export const minRows = 5;
@@ -49,6 +50,7 @@ export const clickTypeToColorMap = new Map([
   [exitType, exitColor],
   [searchType, searchColor],
   [pathType, pathColor],
+  [currentType, currentColor],
 ]);
 
 // Rows, Columns options for mobile
