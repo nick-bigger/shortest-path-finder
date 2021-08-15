@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactiveButton from "reactive-button";
 import styled from "@emotion/styled";
 import { FaRandom } from "react-icons/fa";
@@ -11,6 +11,7 @@ import { CgTrashEmpty } from "react-icons/cg";
 
 import { cellType, wallType, entryType, exitType } from "../common/config";
 import { randomMazeGenerator } from "../common/helper";
+import MyReactiveButton from "./MyReactiveButton";
 
 const buttonsColorMap = new Map([
   [wallType, "red"],
@@ -59,6 +60,7 @@ const MobileButtons = styled.div`
 `;
 
 const Section = styled.div`
+  margin-bottom: 10px;
   & > span {
     min-width: 0;
   }
@@ -75,9 +77,11 @@ export function Controls({
   entry,
   exit,
   setGrid,
-  startBFS,
+  startSearch,
   clickType,
   setClickType,
+  selectedAlgorithm,
+  setAlgorithm,
   isInProgress,
   resetGrid,
 }) {
@@ -91,52 +95,71 @@ export function Controls({
 
   const isDisabled = isInProgress.current;
 
-  // Customized Reactive Button
-  const MyReactiveButton = function ({ text, type }) {
-    return (
-      <ReactiveButton
-        onClick={() => setClickType(type)}
-        color={buttonsColorMap.get(type)}
-        disabled={isInProgress.current}
-        idleText={text}
-        outline={clickType !== type}
-      />
-    );
-  };
+  const myReactiveButtonProps = {
+    handleClick: setClickType,
+    buttonsColorMap,
+    isInProgress,
+    selectedType: clickType
+  }
+
+  const myFunctionButtonProps = {
+    handleClick: setAlgorithm,
+    buttonsColorMap,
+    isInProgress,
+    selectedType: selectedAlgorithm,
+  }
 
   return (
     <Row>
       <WebButtons>
         <Section>
-          <MyReactiveButton text="Entry" type={entryType} />
-          <MyReactiveButton text="Exit" type={exitType} />
-          <MyReactiveButton text="Wall" type={wallType} />
-          <MyReactiveButton text="Clear" type={cellType} />
+          <MyReactiveButton text="Entry" type={entryType} {...myReactiveButtonProps} />
+          <MyReactiveButton text="Exit" type={exitType} {...myReactiveButtonProps} />
+          <MyReactiveButton text="Wall" type={wallType} {...myReactiveButtonProps} />
+          <MyReactiveButton text="Clear" type={cellType} {...myReactiveButtonProps} />
         </Section>
         <Section>
-          <ReactiveButton onClick={startBFS} disabled={isDisabled} idleText="Search Path" />
+          <MyReactiveButton text="BFS" type={"bfs"} {...myFunctionButtonProps} />
+          <MyReactiveButton text="A*" type={"a_star"} {...myFunctionButtonProps} />
         </Section>
         <Section>
           <ReactiveButton onClick={resetGrid} idleText="Reset" outline />
           <ReactiveButton onClick={randomGrid} idleText="Random Maze" outline />
         </Section>
       </WebButtons>
+      <Row>
+        <WebButtons>
+          <Section style={{justifyContent: "center"}}>
+            <ReactiveButton onClick={startSearch} disabled={isDisabled} idleText="Search Path" />
+          </Section>
+        </WebButtons>
+      </Row>
 
-      <MobileButtons>
-        <Section>
-          <MyReactiveButton text={<IoEnterOutline />} type={entryType} />
-          <MyReactiveButton text={<IoExitOutline />} type={exitType} />
-          <MyReactiveButton text={<MdBlock />} type={wallType} />
-          <MyReactiveButton text={<CgTrashEmpty />} type={cellType} />
-        </Section>
-        <Section>
-          <ReactiveButton onClick={startBFS} disabled={isDisabled} idleText={<BsPlay />} />
-        </Section>
-        <Section>
-          <ReactiveButton onClick={resetGrid} idleText={<GrPowerReset />} outline />
-          <ReactiveButton onClick={randomGrid} idleText={<FaRandom />} outline />
-        </Section>
-      </MobileButtons>
+      <Row>
+        <MobileButtons>
+          <Section>
+            <MyReactiveButton text={<IoEnterOutline />} type={entryType} {...myReactiveButtonProps} />
+            <MyReactiveButton text={<IoExitOutline />} type={exitType} {...myReactiveButtonProps} />
+            <MyReactiveButton text={<MdBlock />} type={wallType} {...myReactiveButtonProps} />
+            <MyReactiveButton text={<CgTrashEmpty />} type={cellType} {...myReactiveButtonProps} />
+          </Section>
+          <Section>
+            <ReactiveButton onClick={resetGrid} idleText={<GrPowerReset />} outline />
+            <ReactiveButton onClick={randomGrid} idleText={<FaRandom />} outline />
+          </Section>
+        </MobileButtons>
+      </Row>
+      <Row>
+        <MobileButtons>
+          <Section style={{paddingRight: "20px"}}>
+            <MyReactiveButton text="BFS" type={"bfs"} {...myFunctionButtonProps} />
+            <MyReactiveButton text="A*" type={"a_star"} {...myFunctionButtonProps} />
+          </Section>
+          <Section>
+            <ReactiveButton onClick={startSearch} disabled={isDisabled} idleText={<BsPlay />} />
+          </Section>
+        </MobileButtons>
+      </Row>
     </Row>
   );
 }

@@ -7,7 +7,9 @@ import { AiFillGithub } from "react-icons/ai";
 import { Dimensions } from "./components/Dimensions";
 import { Grid } from "./components/Grid";
 import { Controls } from "./components/Controls";
+import ControlMenu from "./components/ControlMenu";
 
+import { startAStarAlgo } from "./common/aStarAlgo";
 import { startBreadthFirstSearchAlgo } from "./common/bfsAlgo";
 import { generateGrid } from "./common/helper";
 import { cellType, wallType, entryType, exitType } from "./common/config";
@@ -43,6 +45,12 @@ const ToastContainerMobile = styled(ToastContainer)`
   }
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 function setCell(ref, x = -1, y = -1) {
   ref.current.x = x;
   ref.current.y = y;
@@ -58,6 +66,7 @@ export function App() {
   const [cols, setCols] = useState(55);
   const [grid, setGrid] = useState(generateGrid(rows, cols));
   const [clickType, setClickType] = useState(1);
+  const [selectedAlgorithm, setAlgorithm] = useState("bfs");
   const isInProgress = useRef(false);
   const entry = useRef({ x: -1, y: -1 });
   const exit = useRef({ x: -1, y: -1 });
@@ -68,15 +77,17 @@ export function App() {
     cols,
     grid,
     clickType,
+    selectedAlgorithm,
     setRows,
     setCols,
     setGrid,
     setClickType,
+    setAlgorithm,
     isInProgress,
     entry,
     exit,
     resetGrid,
-    startBFS: startSearch,
+    startSearch,
     setGridCell,
   };
 
@@ -94,7 +105,18 @@ export function App() {
     }
 
     isInProgress.current = true;
-    await startBreadthFirstSearchAlgo(grid, setGrid, entry.current, exit.current, isInProgress);
+
+    switch(selectedAlgorithm) {
+      case "bfs":
+        await startBreadthFirstSearchAlgo(grid, setGrid, entry.current, exit.current, isInProgress);
+        break;
+      case "a_star":
+        await startAStarAlgo(grid, setGrid, entry.current, exit.current, isInProgress);
+        break;
+      default:
+        toast.error("Unrecognized Algorithm selected", { toastId: 0 });
+        return false;
+    }
   }
 
   function setGridCell(x, y, type = clickType) {
@@ -137,10 +159,14 @@ export function App() {
           <AiFillGithub />
         </a>
       </Title>
-      <Dimensions {...appData} />
       <Main>
-        <Controls {...appData} />
-        <Grid {...appData} />
+        <ContentWrapper>
+          <ControlMenu>
+            <Dimensions {...appData} />
+            <Controls {...appData} />
+          </ControlMenu>
+          <Grid {...appData} />
+        </ContentWrapper>
         <ToastContainerWeb autoClose={3000} pauseOnFocusLoss={false} toastId={3} />
         <ToastContainerMobile
           position="bottom-center"
