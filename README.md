@@ -3,19 +3,19 @@
 
 ### Shortest Path Finder using BFS algorithm in React
 
-<a href="https://sadanandpai.github.io/shortest-path-finder/dist/"><img src="cover/cover.png" alt="cover"/></a>
+<a href="https://nick-bigger.github.io/shortest-path-finder/dist/"><img src="cover/cover.png" alt="cover"/></a>
 
-[![](https://img.shields.io/github/stars/sadanandpai/shortest-path-finder?style=for-the-badge)](#stars)
-[![](https://img.shields.io/github/forks/sadanandpai/shortest-path-finder?style=for-the-badge)](#forks)<br>
+[![](https://img.shields.io/github/stars/nick-bigger/shortest-path-finder?style=for-the-badge)](#stars)
+[![](https://img.shields.io/github/forks/nick-bigger/shortest-path-finder?style=for-the-badge)](#forks)<br>
 ![](https://visitor-badge.glitch.me/badge?page_id=shortest-path-finder)
 
-<a href="https://sadanandpai.github.io/shortest-path-finder/dist/">Live demo</a>
+<a href="https://nick-bigger.github.io/shortest-path-finder/dist/">Live demo</a>
 
 </div>
 
 ### Running in your local
 
-- `git clone https://github.com/sadanandpai/shortest-path-finder.git`
+- `git clone https://github.com/nick-bigger/shortest-path-finder.git`
 - `npm install` (after navigating inside the directory)
 - `npm start`
 
