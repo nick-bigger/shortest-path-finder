@@ -133,7 +133,7 @@ export function App() {
     <>
       <Title>
         Shortest Path Finder
-        <a href="https://github.com/sadanandpai/shortest-path-finder">
+        <a href="https://github.com/nick-bigger/shortest-path-finder">
           <AiFillGithub />
         </a>
       </Title>
