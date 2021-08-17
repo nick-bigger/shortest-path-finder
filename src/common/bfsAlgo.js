@@ -1,39 +1,7 @@
-import { generateGrid, delay } from "./helper";
+import { generateGrid, delay, setGridCell, setGridCells } from "./helper";
 import { toast } from "react-toastify";
 import { searchType, pathType } from "../common/config";
 
-/**
- * @description Set given value to a cell and call setGrid
- * @param {*} grid : 2D array;
- * @param {*} setGrid
- * @param {*} x
- * @param {*} y
- * @param {*} value
- */
-function setGridCell(grid, setGrid, x, y, value) {
-  const newGrid = [...grid]; // though its an array of array, shallow copy should work fine
-  newGrid[x][y] = value; // set the value to the specific cell
-  setGrid(newGrid);
-}
-
-/**
- * @description
- * @param {*} grid : 2D array;
- * @param {*} setGrid
- * @param {*} positions : Array of {x, y} coordinates
- * @param {*} value
- * @param {*} entry
- */
-function setGridCells(grid, setGrid, positions, value, entry) {
-  const newGrid = [...grid];
-  positions.forEach((position) => {
-    if (!(position.x === entry.x && position.y === entry.y)) {
-      // check if position is not same as entry
-      newGrid[position.x][position.y] = value; // set value of cell
-    }
-  });
-  setGrid(newGrid);
-}
 
 /**
  *
@@ -83,7 +51,7 @@ async function tracePath(entry, exit, parents, grid, setGrid, isInProgress) {
 
   // Start marking the path with a small delay
   do {
-    setGridCell(grid, setGrid, x, y, pathType);
+    setGridCell(grid, setGrid, x, y, pathType, entry);
     await delay(100);
     [x, y] = [parents[x][y].x, parents[x][y].y]; // set parents for next iteration
     pathLength += 1;

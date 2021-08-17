@@ -52,6 +52,7 @@ const Label = styled.label`
   align-items: center;
   flex-grow: 1;
   column-gap: 10px;
+  margin-bottom: 10px;
 
   & > div {
     flex: 1;
